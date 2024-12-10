@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { AssessmentQuestion, AssessmentAnswer } from '@/types/assessment';
+//import { AssessmentQuestion, AssessmentAnswer } from '@/types/assessment';
 import { getQuestions, submitAssessment } from '@/lib/assessment';
 import { useToast } from '@/contexts/ToastContext';
 import { Loading } from '@/components/ui/Loading';

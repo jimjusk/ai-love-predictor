@@ -1,13 +1,13 @@
 import { inter, notoSansSC } from './fonts';
 import { metadata } from './metadata';
 import './globals.css';
-import { WebVitals } from '@/home/components/Analytics/WebVitals';
-import PWAInstallPrompt from '@/home/components/common/PWAInstallPrompt';
+// import { WebVitals } from '@/home/components/Analytics/WebVitals';
+// import PWAInstallPrompt from '@/home/components/common/PWAInstallPrompt';
 // import { initSentry } from '@/lib/sentry';
-import { ErrorMonitor } from '@/home/components/Analytics/ErrorMonitor';
-import { PerformanceMonitor } from '@/home/components/Analytics/PerformanceMonitor';
-import { PerformanceDebug } from '@/home/components/Analytics/PerformanceDebug';
-import { AnimatedLayout } from '@/components/Layout/AnimatedLayout';
+// import { ErrorMonitor } from '@/home/components/Analytics/ErrorMonitor';
+// import { PerformanceMonitor } from '@/home/components/Analytics/PerformanceMonitor';
+// import { PerformanceDebug } from '@/home/components/Analytics/PerformanceDebug';
+// import { AnimatedLayout } from '@/components/Layout/AnimatedLayout';
 import { ToastProvider } from '@/contexts/ToastContext';
 
 // 初始化 Sentry

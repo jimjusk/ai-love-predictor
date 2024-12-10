@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Line, Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -37,15 +37,36 @@ interface MetricsData {
   };
 }
 
-export default function MonitoringDashboard() {
-  const [metrics, setMetrics] = useState<MetricsData[]>([]);
-  const [timeRange, setTimeRange] = useState<'24h' | '7d' | '30d'>('24h');
+// 添加 AlertsList 组件
+function AlertsList() {
+    return (
+      <div className="space-y-2">
+        <p className="text-muted-foreground">暂无告警信息</p>
+      </div>
+    );
+  }
 
-  useEffect(() => {
-    fetchMetrics();
-    const interval = setInterval(fetchMetrics, 60000); // 每分钟更新
-    return () => clearInterval(interval);
-  }, [timeRange]);
+
+  export default function MonitoringDashboard() {
+    const [metrics, setMetrics] = useState<MetricsData[]>([]);
+    const [timeRange, setTimeRange] = useState<'24h' | '7d' | '30d'>('24h');
+  
+    // 使用 useCallback 包装 fetchMetrics
+    const fetchMetrics = useCallback(async () => {
+      try {
+        const response = await fetch(`/api/metrics?range=${timeRange}`);
+        const data = await response.json();
+        setMetrics(data);
+      } catch (error) {
+        console.error('Failed to fetch metrics:', error);
+      }
+    }, [timeRange]); // 添加 timeRange 作为依赖项
+  
+    useEffect(() => {
+      fetchMetrics();
+      const interval = setInterval(fetchMetrics, 60000); // 每分钟更新
+      return () => clearInterval(interval);
+    }, [fetchMetrics]); // 使用 fetchMetrics 作为依赖项
 
   async function fetchMetrics() {
     try {

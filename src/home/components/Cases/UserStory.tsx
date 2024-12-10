@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
-import Image from 'next/image';
+//import Image from 'next/image';
 import { Story, stories } from './data';
 import { ChevronLeft, ChevronRight } from './Icons';
 import Avatar from './Avatar';

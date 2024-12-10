@@ -6,7 +6,12 @@ export interface SearchParams {
   [key: string]: string | string[] | undefined;
 }
 
-export interface PageProps<T = PageParams> {
-  params: T;
+export interface PageProps {
+  params: Promise<PageParams>;
+  searchParams: SearchParams;
+}
+
+export interface ClientPageProps {
+  params: PageParams;
   searchParams: SearchParams;
 } 

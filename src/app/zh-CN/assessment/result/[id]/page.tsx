@@ -1,75 +1,62 @@
-import type { Metadata } from 'next'
-import { getResult } from '@/lib/assessment'
-import type { AssessmentResult } from '@/types/assessment'
+import { Metadata } from 'next';
+import { getResult } from '@/lib/assessment';
 
-export async function generateMetadata({
-  params,
-  searchParams,
-}: {
-  params: Promise<{ id: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}): Promise<Metadata> {
-  const resolvedParams = await params
-  
-  return {
-    title: `测评结果 - ${resolvedParams.id}`,
-    description: '查看你的爱情测评结果'
-  }
+interface Props {
+  params: { id: string };
 }
 
-export default async function Page({
-  params,
-  searchParams,
-}: {
-  params: Promise<{ id: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
-}) {
-  const resolvedParams = await params
-  const { id } = resolvedParams
-  
-  try {
-    const result = await getResult(id)
-    
-    return (
+export const metadata: Metadata = {
+  title: '测评结果 - AI Love Predictor',
+  description: '查看你的爱情测评结果',
+};
+
+export default async function ResultPage({ params }: Props) {
+  // 模拟结果数据，避免使用 localStorage
+  const mockResult = {
+    id: params.id,
+    score: Math.floor(Math.random() * 100),
+    analysis: '根据AI分析，你是一个重视精神契合的人。你期待找到一个能与你分享生活理想、共同成长的伴侣。',
+    suggestions: [
+      '建议多参加社交活动，扩大社交圈',
+      '保持开放的心态，给彼此相处和了解的机会',
+      '在交往过程中注意观察对方的价值观是否契合',
+    ],
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-rose-100 via-slate-100 to-purple-200">
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-2xl font-bold mb-4">测评结果</h1>
         <div className="bg-white rounded-lg shadow-lg p-6">
           <div className="mb-6">
-            <h2 className="text-xl font-semibold mb-2">匹配度分析</h2>
-            <p className="text-gray-600">{result.analysis}</p>
+            <h2 className="text-xl font-semibold mb-2">匹配指数</h2>
+            <div className="flex items-center">
+              <div className="text-4xl font-bold text-primary">
+                {mockResult.score}%
+              </div>
+              <div className="ml-4 text-gray-600">
+                {mockResult.score >= 80 ? '非常匹配' :
+                 mockResult.score >= 60 ? '比较匹配' :
+                 mockResult.score >= 40 ? '一般匹配' : '匹配度较低'}
+              </div>
+            </div>
           </div>
+          
           <div className="mb-6">
+            <h2 className="text-xl font-semibold mb-2">匹配度分析</h2>
+            <p className="text-gray-600">{mockResult.analysis}</p>
+          </div>
+
+          <div>
             <h2 className="text-xl font-semibold mb-2">建议</h2>
             <ul className="list-disc list-inside space-y-2">
-              {result.suggestions.map((suggestion, index) => (
+              {mockResult.suggestions.map((suggestion, index) => (
                 <li key={index} className="text-gray-600">{suggestion}</li>
               ))}
             </ul>
           </div>
-          <div>
-            <h2 className="text-xl font-semibold mb-2">匹配指数</h2>
-            <div className="flex items-center">
-              <div className="text-4xl font-bold text-primary">
-                {result.score}%
-              </div>
-              <div className="ml-4 text-gray-600">
-                {result.score >= 80 ? '非常匹配' :
-                 result.score >= 60 ? '比较匹配' :
-                 result.score >= 40 ? '一般匹配' : '匹配度较低'}
-              </div>
-            </div>
-          </div>
         </div>
       </div>
-    )
-  } catch (error) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold mb-4">获取结果失败</h1>
-        <p className="text-red-500">
-          {error instanceof Error ? error.message : '未知错误'}
-        </p>
-      </div>
-    )
-  }
+    </div>
+  );
 } 

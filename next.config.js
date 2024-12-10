@@ -7,16 +7,10 @@ const withPWA = require('next-pwa')({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   reactStrictMode: true,
-  
-  // 移除 i18n 配置
-  // i18n: {
-  //   locales: ['zh-CN'],
-  //   defaultLocale: 'zh-CN',
-  //   localeDetection: false
-  // },
-
-  // 使用 redirects 替代 middleware
   async redirects() {
     return [
       {

@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { submitAssessment } from '@/lib/assessment';
 import { useToast } from '@/contexts/ToastContext';
 import { Loading } from '@/components/ui/Loading';
 import { QuestionSkeleton } from './QuestionSkeleton';
@@ -64,14 +63,14 @@ export default function AssessmentForm() {
 
   const canProceed = () => {
     const answer = currentAnswer;
-    if (!answer) return false;
+    if (!answer && answer !== 0) return false;
     
     if (Array.isArray(answer)) {
       return answer.length > 0;
     }
     
     if (typeof answer === 'number') {
-      return answer >= 1 && answer <= 10;
+      return !isNaN(answer) && answer >= 1 && answer <= 10;
     }
     
     return answer.length > 0;
@@ -85,11 +84,28 @@ export default function AssessmentForm() {
     setCurrentStep((prev) => Math.min(questions.length - 1, prev + 1));
   };
 
-  const onSubmit = async (data: AssessmentFormData) => {
+  const onSubmit = async (formData: AssessmentFormData) => {
     try {
-      const result = await submitAssessment(data.answers);
+      const response = await fetch('/api/assessment/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ answers: formData.answers }),
+      });
+      
+      if (!response.ok) {
+        throw new Error('提交失败');
+      }
+      
+      const result = await response.json();
+      if (!result.id) {
+        throw new Error('返回数据格式错误');
+      }
+      
       router.push(`/zh-CN/assessment/result/${result.id}`);
     } catch (error) {
+      console.error('提交错误:', error);
       showToast(
         error instanceof Error ? error.message : '提交失败，请稍后重试',
         'error'
@@ -138,8 +154,10 @@ export default function AssessmentForm() {
                 type="range"
                 min="1"
                 max="10"
+                step="1"
                 {...register(`answers.${currentStep}.answer`, {
                   valueAsNumber: true,
+                  value: currentAnswer || 5,
                 })}
                 className="flex-1"
               />

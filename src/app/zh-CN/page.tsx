@@ -1,3 +1,5 @@
+import CTAButton from '@/home/components/Hero/CTAButton';
+
 export default function Home() {
   return (
     <main className="h-screen flex flex-col bg-gradient-to-br from-rose-100 via-slate-100 to-purple-200 overflow-hidden">
@@ -27,9 +29,7 @@ export default function Home() {
               <p className="text-muted text-base md:text-lg mb-8 max-w-2xl mx-auto leading-relaxed">
                 通过先进的AI技术，分析你们的匹配程度，预测你们的爱情未来。
               </p>
-              <button className="bg-primary text-white px-10 py-3 rounded-lg text-lg hover:opacity-90 transition-all transform hover:scale-105 shadow-lg">
-                开始预测
-              </button>
+              <CTAButton />
             </div>
           </div>
         </section>

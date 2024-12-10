@@ -1,16 +1,16 @@
 import React from 'react';
 
-interface IconProps {
+type IconComponent = React.ComponentType<{
   className?: string;
-}
+}>;
 
 export interface Feature {
   title: string;
   description: string;
-  icon: (props: IconProps) => JSX.Element;
+  icon: IconComponent;
 }
 
-function BrainIcon({ className }: IconProps) {
+const BrainIcon = React.memo(function BrainIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M12 3c1.5 0 2.7 1.2 2.7 2.7 0 1.5-1.2 2.7-2.7 2.7-1.5 0-2.7-1.2-2.7-2.7C9.3 4.2 10.5 3 12 3z" />
@@ -18,17 +18,17 @@ function BrainIcon({ className }: IconProps) {
       <path d="M12 16c-1.7 0-3-1.3-3-3s1.3-3 3-3 3 1.3 3 3-1.3 3-3 3z" />
     </svg>
   );
-}
+});
 
-function ShieldIcon({ className }: IconProps) {
+const ShieldIcon = React.memo(function ShieldIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
     </svg>
   );
-}
+});
 
-function UsersIcon({ className }: IconProps) {
+const UsersIcon = React.memo(function UsersIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
@@ -37,7 +37,7 @@ function UsersIcon({ className }: IconProps) {
       <path d="M16 3.13a4 4 0 0 1 0 7.75" />
     </svg>
   );
-}
+});
 
 export const features: Feature[] = [
   {

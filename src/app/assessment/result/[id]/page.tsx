@@ -1,8 +1,6 @@
-import { Suspense } from 'react';
-import { PageTransition } from '@/components/ui/PageTransition';
-import { getResult } from '@/lib/assessment';
-import AssessmentResult from '@/components/assessment/AssessmentResult';
 import { Metadata } from 'next';
+import { Suspense } from 'react';
+import ResultPage from '@/components/assessment/ResultPage';
 
 interface ResultPageProps {
   params: {
@@ -11,29 +9,19 @@ interface ResultPageProps {
   searchParams: { [key: string]: string | string[] | undefined };
 }
 
-async function ResultPage({ params, searchParams }: ResultPageProps) {
-  const result = await getResult(params.id);
-
-  return (
-    <PageTransition>
-      <main>
-        <AssessmentResult result={result} />
-      </main>
-    </PageTransition>
-  );
-}
-
-export default function ResultPageWrapper(props: ResultPageProps) {
+export default function Page({ params, searchParams }: ResultPageProps) {
   return (
     <Suspense fallback={<div>加载中...</div>}>
-      <ResultPage {...props} />
+      <ResultPage params={params} searchParams={searchParams} />
     </Suspense>
   );
 }
 
-export async function generateMetadata({ 
-  params,
-  searchParams 
-}: ResultPageProps): Promise<Metadata> {
-  // ... metadata 代码 ...
+export async function generateMetadata(
+  { params, searchParams }: ResultPageProps
+): Promise<Metadata> {
+  return {
+    title: '测评结果 - AI Love Predictor',
+    description: '查看你的爱情测评结果',
+  };
 } 

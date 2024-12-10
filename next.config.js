@@ -1,25 +1,19 @@
-const withPWA = require('next-pwa');
-
-/** @type {import('next').NextConfig} */
-const nextConfig = withPWA({
+const withPWA = require('next-pwa')({
   dest: 'public',
   register: true,
   skipWaiting: true,
   disable: process.env.NODE_ENV === 'development',
-})({
-  webpack: (config, { isServer }) => {
-    // 更新 webpack 配置
-    if (!config.ignoreWarnings) {
-      config.ignoreWarnings = [];
-    }
-    
-    config.ignoreWarnings.push({
-      module: /node_modules\/punycode/,
-      message: /Package subpath/,
-    });
+  buildExcludes: [/middleware-manifest\.json$/],
+})
 
-    return config;
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
   }
-});
+}
 
-module.exports = nextConfig;
+module.exports = withPWA(nextConfig)

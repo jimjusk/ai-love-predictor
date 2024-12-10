@@ -25,4 +25,4 @@ export const featuresData = {
       icon: Users,
     },
   ],
-}; 
+} as const; 

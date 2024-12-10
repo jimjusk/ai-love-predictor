@@ -1,15 +1,21 @@
+import React from 'react';
 import Headline from './Headline';
 import CTAButton from './CTAButton';
 import Background from './Background';
 import { useExperiment } from '@/home/hooks/useExperiment';
-import { ExperimentTracker } from '@/home/components/Analytics/ExperimentTracker';
+import ExperimentTracker from '@/components/ExperimentTracker';
+
+type LayoutVariant = 'center' | 'left' | 'right';
 
 export default function Hero() {
-  const layout = useExperiment<'center' | 'left' | 'right'>('hero-layout');
+  const layout = useExperiment<LayoutVariant>('hero-layout', 'center');
 
   return (
     <>
-      <ExperimentTracker experimentId="hero-layout" variant={layout} />
+      <ExperimentTracker 
+        experimentId="hero-layout" 
+        variant={layout || 'center'}
+      />
       <section className={`relative min-h-[calc(100vh-4rem)] ${
         layout === 'center' ? 'text-center' : 
         layout === 'left' ? 'text-left' :

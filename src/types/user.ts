@@ -1,15 +1,10 @@
 export interface User {
   id: string;
-  email: string;
-  name: string;
+  name?: string;
+  email?: string;
   avatar?: string;
-  gender: 'male' | 'female';
+  gender: 'male' | 'female' | 'other';
   birthDate: string;
-  preferences?: {
-    ageRange: [number, number];
-    gender: 'male' | 'female' | 'both';
-    location?: string[];
-  };
   createdAt: string;
   updatedAt: string;
 }

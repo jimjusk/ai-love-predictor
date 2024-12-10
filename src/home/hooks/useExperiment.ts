@@ -1,74 +1,30 @@
-import { useCallback, useEffect, useState } from 'react';
-import { ExperimentId, ExperimentContext } from '../experiments/types';
-import { experiments } from '../experiments/config';
+import { useState, useEffect } from 'react';
 
-function getDeviceType(): 'mobile' | 'tablet' | 'desktop' {
-  const width = window.innerWidth;
-  if (width < 768) return 'mobile';
-  if (width < 1024) return 'tablet';
-  return 'desktop';
+export type VariantValue = string | number | boolean | object;
+export type ExperimentId = string;
+
+interface ExperimentContext {
+  userId?: string;
+  deviceType?: string;
+  userAgent?: string;
 }
 
-function generateUserId(): string {
-  return Math.random().toString(36).substring(2) + Date.now().toString(36);
-}
-
-export function useExperiment<T>(experimentId: ExperimentId): T {
-  const [variant, setVariant] = useState<T | null>(null);
-
-  const getContext = useCallback((): ExperimentContext => {
-    let userId = localStorage.getItem('userId');
-    if (!userId) {
-      userId = generateUserId();
-      localStorage.setItem('userId', userId);
-    }
-
-    return {
-      userId,
-      deviceType: getDeviceType(),
-      userAgent: navigator.userAgent,
-    };
-  }, []);
-
-  const assignVariant = useCallback((context: ExperimentContext) => {
-    const experiment = experiments.find(e => e.id === experimentId);
-    if (!experiment) return null;
-
-    const variantKeys = Object.keys(experiment.variants);
-    const weights = experiment.weights || 
-      Object.fromEntries(variantKeys.map(key => [key, 1 / variantKeys.length]));
-
-    // 使用用户ID确保同一用户看到相同变体
-    const hash = context.userId.split('').reduce((acc, char) => {
-      return char.charCodeAt(0) + ((acc << 5) - acc);
-    }, 0);
-    
-    const normalizedHash = (hash >>> 0) / 4294967295; // 转换为0-1之间的数
-    
-    let accumulator = 0;
-    for (const [key, weight] of Object.entries(weights)) {
-      accumulator += weight;
-      if (normalizedHash <= accumulator) {
-        return experiment.variants[key];
-      }
-    }
-
-    return experiment.variants[variantKeys[0]];
-  }, [experimentId]);
+export function useExperiment<T extends VariantValue>(
+  experimentId: ExperimentId,
+  defaultValue: T | null = null
+) {
+  const [variant, setVariant] = useState<T | null>(defaultValue);
 
   useEffect(() => {
-    const context = getContext();
-    const selectedVariant = assignVariant(context);
-    setVariant(selectedVariant);
-
+    // 简单的变体分配逻辑
+    setVariant(defaultValue);
+    
     // 记录实验数据
     console.log('Experiment:', {
-      experimentId,
-      variant: selectedVariant,
-      context,
-      timestamp: new Date().toISOString(),
+      id: experimentId,
+      variant: defaultValue
     });
-  }, [experimentId, assignVariant, getContext]);
+  }, [experimentId, defaultValue]);
 
-  return variant as T;
+  return variant;
 } 

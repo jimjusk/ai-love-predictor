@@ -2,7 +2,6 @@ import type { Metadata } from 'next'
 import { getResult } from '@/lib/assessment'
 import type { AssessmentResult } from '@/types/assessment'
 
-// 使用 Promise 类型的参数
 export async function generateMetadata({
   params,
   searchParams,
@@ -10,7 +9,6 @@ export async function generateMetadata({
   params: Promise<{ id: string }>
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }): Promise<Metadata> {
-  // 解析 Promise
   const resolvedParams = await params
   
   return {
@@ -19,7 +17,6 @@ export async function generateMetadata({
   }
 }
 
-// 页面组件也使用 Promise 类型的参数
 export default async function Page({
   params,
   searchParams,
@@ -27,7 +24,6 @@ export default async function Page({
   params: Promise<{ id: string }>
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
-  // 解析 Promise
   const resolvedParams = await params
   const { id } = resolvedParams
   

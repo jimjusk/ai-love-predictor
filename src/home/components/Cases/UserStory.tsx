@@ -36,7 +36,7 @@ export default function UserStory({ stories }: Props) {
     setScrollSnaps(emblaApi.scrollSnapList());
     emblaApi.on('select', onSelect);
     
-    // 自动轮播
+    // 自动���播
     const autoplayInterval = setInterval(() => {
       emblaApi.scrollNext();
     }, 5000);

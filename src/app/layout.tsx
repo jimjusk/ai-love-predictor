@@ -9,6 +9,7 @@ import './globals.css';
 // import { PerformanceDebug } from '@/home/components/Analytics/PerformanceDebug';
 // import { AnimatedLayout } from '@/components/Layout/AnimatedLayout';
 import { ToastProvider } from '@/contexts/ToastContext';
+import { LanguageProvider } from '@/contexts/LanguageContext';
 
 // 初始化 Sentry
 // initSentry();
@@ -45,9 +46,11 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <ToastProvider>
+        <LanguageProvider>
+          <ToastProvider>
             {children}
-        </ToastProvider>
+          </ToastProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

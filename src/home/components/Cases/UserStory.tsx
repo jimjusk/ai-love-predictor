@@ -1,11 +1,17 @@
+'use client';
+
 import React, { useCallback, useEffect, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 //import Image from 'next/image';
-import { Story, stories } from './data';
+import { Story } from './data';
 import { ChevronLeft, ChevronRight } from './Icons';
 import Avatar from './Avatar';
 
-export default function UserStory() {
+interface UserStoryProps {
+  stories: Story[];
+}
+
+export default function UserStory({ stories }: UserStoryProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align: 'center',

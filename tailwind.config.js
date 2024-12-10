@@ -1,18 +1,21 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: [
-      './src/**/*.{js,ts,jsx,tsx,mdx}',
-      './app/**/*.{js,ts,jsx,tsx,mdx}',
-    ],
-    theme: {
-      extend: {
-        colors: {
-          primary: 'var(--primary)',
-          background: 'var(--background)',
-          foreground: 'var(--foreground)',
-          muted: 'var(--muted)',
-        },
+  content: [
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        background: 'var(--background)',
+        foreground: 'var(--foreground)',
+        primary: 'var(--primary)',
+        muted: 'var(--muted)',
+        card: 'var(--card)',
+        'card-foreground': 'var(--card-foreground)',
+        border: 'var(--border)',
       },
     },
-    plugins: [],
-  }
+  },
+  plugins: [],
+} 

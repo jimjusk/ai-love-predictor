@@ -29,18 +29,6 @@ type AssessmentFormData = z.infer<typeof answerSchema>;
 
 export default function AssessmentForm() {
   const router = useRouter();
-  const params = useParams();
-  const lang = params?.lang as string || 'zh-CN';
-  const [isLoading, setIsLoading] = useState(false);
-  
-  // 根据当前语言获取问题
-  const questions = questionsData[lang as 'zh-CN' | 'en'];
-  
-  if (!questions) {
-    console.error('Questions not found');
-    return <QuestionSkeleton />;
-  }
-
   const [currentStep, setCurrentStep] = useState(0);
   const { register, handleSubmit, formState: { errors, isSubmitting }, watch, setValue } = useForm<AssessmentFormData>({
     resolver: zodResolver(answerSchema),
@@ -48,8 +36,23 @@ export default function AssessmentForm() {
       answers: [],
     },
   });
-  
   const { showToast } = useToast();
+  
+  // 直接使用中文问题数据
+  const questions = questionsData['zh-CN'];
+  
+  // 使用 useEffect 处理数据加载
+  useEffect(() => {
+    if (!questions) {
+      console.error('Questions not found');
+      router.push('/zh-CN');
+    }
+  }, [questions, router]);
+
+  if (!questions) {
+    return <div>加载中...</div>;
+  }
+
   const currentAnswer = watch(`answers.${currentStep}.answer`);
   const currentQuestion = questions[currentStep];
 

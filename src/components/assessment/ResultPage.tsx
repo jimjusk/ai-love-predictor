@@ -2,14 +2,20 @@
 
 import { useEffect, useState } from 'react';
 import { getResult } from '@/lib/assessment';
-import { AssessmentResult } from '@/types/assessment';
+import type { AssessmentResult } from '@/types/assessment';
 import { PageTransition } from '@/components/ui/PageTransition';
 
+interface PageParams {
+  id: string;
+}
+
+interface SearchParams {
+  [key: string]: string | string[] | undefined;
+}
+
 interface ResultPageProps {
-  params: {
-    id: string;
-  };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: PageParams;
+  searchParams: SearchParams;
 }
 
 export default function ResultPage({ params }: ResultPageProps) {

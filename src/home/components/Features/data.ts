@@ -1,12 +1,16 @@
 import React from 'react';
 
+interface IconProps {
+  className?: string;
+}
+
 export interface Feature {
   title: string;
   description: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: React.FC<IconProps>;
 }
 
-const BrainIcon = ({ className }: { className?: string }) => (
+const BrainIcon: React.FC<IconProps> = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M12 3c1.5 0 2.7 1.2 2.7 2.7 0 1.5-1.2 2.7-2.7 2.7-1.5 0-2.7-1.2-2.7-2.7C9.3 4.2 10.5 3 12 3z" />
     <path d="M12 21c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z" />
@@ -14,13 +18,13 @@ const BrainIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const ShieldIcon = ({ className }: { className?: string }) => (
+const ShieldIcon: React.FC<IconProps> = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
   </svg>
 );
 
-const UsersIcon = ({ className }: { className?: string }) => (
+const UsersIcon: React.FC<IconProps> = ({ className }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
     <circle cx="9" cy="7" r="4" />
@@ -29,7 +33,7 @@ const UsersIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export const features = [
+export const features: Feature[] = [
   {
     title: 'AI智能匹配',
     description: '采用先进的深度学习算法，通过多维度分析，为你匹配最合适的伴侣。',

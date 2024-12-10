@@ -1,0 +1,36 @@
+{
+  "common": {
+    "appName": "AI Love Predictor",
+    "loading": "Loading...",
+    "error": "Error",
+    "retry": "Retry"
+  },
+  "nav": {
+    "home": "Home",
+    "assessment": "Assessment",
+    "cases": "Success Cases",
+    "membership": "Membership",
+    "login": "Login",
+    "register": "Register"
+  },
+  "hero": {
+    "title": "AI Predicts Your Ideal Partner",
+    "subtitle": "Using deep learning algorithms to analyze your personality traits and values to find your perfect match",
+    "cta": "Start Assessment"
+  },
+  "features": {
+    "title": "Why Choose Us",
+    "ai": {
+      "title": "AI Matching",
+      "description": "Using advanced deep learning algorithms for multi-dimensional analysis to find your most compatible partner."
+    },
+    "privacy": {
+      "title": "Privacy Protection",
+      "description": "Military-grade encryption to protect your privacy data, ensuring a secure experience."
+    },
+    "service": {
+      "title": "Professional Service",
+      "description": "Professional relationship consultants providing one-on-one consultation services."
+    }
+  }
+} 

@@ -1,0 +1,36 @@
+{
+  "common": {
+    "appName": "AI Love Predictor",
+    "loading": "加载中...",
+    "error": "出错了",
+    "retry": "重试"
+  },
+  "nav": {
+    "home": "首页",
+    "assessment": "测评中心",
+    "cases": "成功案例",
+    "membership": "会员服务",
+    "login": "登录",
+    "register": "注册"
+  },
+  "hero": {
+    "title": "AI智能预测你的理想伴侣",
+    "subtitle": "基于深度学习算法，多维度分析你的性格特征和价值观，找到最适合你的另一半",
+    "cta": "开始测评"
+  },
+  "features": {
+    "title": "为什么选择我们",
+    "ai": {
+      "title": "AI智能匹配",
+      "description": "采用先进的深度学习算法，通过多维度分析，为你匹配最合适的伴侣。"
+    },
+    "privacy": {
+      "title": "隐私保护",
+      "description": "采用军事级加密技术，严格保护用户隐私数据，让你安心使用。"
+    },
+    "service": {
+      "title": "专业服务",
+      "description": "配备专业的情感顾问团队，为你提供一对一��咨询服务。"
+    }
+  }
+} 

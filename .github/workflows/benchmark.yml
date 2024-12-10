@@ -1,0 +1,39 @@
+name: Performance Benchmark
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run performance tests
+      run: |
+        npm run build
+        npm run start &
+        sleep 10
+        npx autocannon -c 100 -d 40 -p 10 http://localhost:3000
+
+    - name: Run Lighthouse CI
+      uses: treosh/lighthouse-ci-action@v9
+      with:
+        urls: |
+          https://staging.ailovepredictor.com
+          https://staging.ailovepredictor.com/assessment
+        budgetPath: ./.github/lighthouse/budget.json
+        uploadArtifacts: true
+        temporaryPublicStorage: true 

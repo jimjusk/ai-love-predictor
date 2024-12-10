@@ -4,18 +4,20 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --foreground: #333333;
+  --primary: #FF4785;
+  --muted: #666666;
+  --card: #f8f9fa;
+  --card-foreground: #333333;
+  --border: #e5e7eb;
 }
 
 body {
+  background-color: var(--background);
   color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 添加平滑滚动 */
+html {
+  scroll-behavior: smooth;
 }

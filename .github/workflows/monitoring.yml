@@ -1,0 +1,75 @@
+name: Monitoring
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # 每5分钟运行一次
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Check website status
+        uses: upptime/uptime-monitor@v1
+        with:
+          urls: |
+            https://ailovepredictor.com
+            https://api.ailovepredictor.com
+          status-website: true
+          notification-url: ${{ secrets.NOTIFICATION_URL }}
+
+      - name: Check API health
+        uses: appleboy/http-monitor@v1
+        with:
+          urls: |
+            https://api.ailovepredictor.com/health
+          threshold: 200-299
+          interval: 300
+          slack_webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          slack_channel: '#monitoring'
+          slack_username: 'Health Monitor'
+
+      - name: Monitor error rates
+        uses: eddiewebb/webhook-action@v1
+        with:
+          url: https://api.ailovepredictor.com/metrics/errors
+          headers: '{"Authorization": "Bearer ${{ secrets.METRICS_TOKEN }}"}'
+          body: '{"period": "5m"}'
+
+      - name: Check user metrics
+        uses: eddiewebb/webhook-action@v1
+        with:
+          url: https://api.ailovepredictor.com/metrics/users
+          headers: '{"Authorization": "Bearer ${{ secrets.METRICS_TOKEN }}"}'
+          body: '{"metrics": ["active_users", "conversion_rate", "bounce_rate"]}'
+
+      - name: Monitor performance metrics
+        uses: treosh/lighthouse-ci-action@v9
+        with:
+          urls: |
+            https://ailovepredictor.com
+            https://ailovepredictor.com/assessment
+          budgetPath: ./.github/lighthouse/budget.json
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          runs: 3
+          serverBaseUrl: ${{ secrets.LHCI_SERVER_URL }}
+          serverToken: ${{ secrets.LHCI_SERVER_TOKEN }}
+
+      - name: Check Core Web Vitals
+        run: |
+          curl -X POST \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer ${{ secrets.PAGESPEED_API_KEY }}" \
+            "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://ailovepredictor.com&strategy=mobile"
+
+      - name: Process and alert on metrics
+        run: |
+          node scripts/process-metrics.js
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          ALERT_THRESHOLD_ERROR_RATE: 0.01
+          ALERT_THRESHOLD_LATENCY: 1000
+          ALERT_THRESHOLD_CPU: 80

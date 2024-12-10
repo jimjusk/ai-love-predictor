@@ -2,23 +2,21 @@ import { Metadata } from 'next';
 import { Suspense } from 'react';
 import ResultPage from '@/components/assessment/ResultPage';
 
-interface ResultPageProps {
-  params: {
-    id: string;
-  };
+type Props = {
+  params: { id: string };
   searchParams: { [key: string]: string | string[] | undefined };
-}
+};
 
-export default function Page({ params, searchParams }: ResultPageProps) {
+export default function Page(props: Props) {
   return (
     <Suspense fallback={<div>加载中...</div>}>
-      <ResultPage params={params} searchParams={searchParams} />
+      <ResultPage {...props} />
     </Suspense>
   );
 }
 
 export async function generateMetadata(
-  { params, searchParams }: ResultPageProps
+  { params }: Props
 ): Promise<Metadata> {
   return {
     title: '测评结果 - AI Love Predictor',

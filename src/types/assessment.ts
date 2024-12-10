@@ -17,15 +17,8 @@ export interface AssessmentAnswer {
 
 export interface AssessmentResult {
   id: string;
-  userId: string;
   score: number;
-  dimensions: {
-    [key: string]: number;  // 各维度得分
-  };
-  recommendations: {
-    title: string;
-    description: string;
-    score: number;
-  }[];
+  analysis: string;
+  suggestions: string[];
   createdAt: string;
 } 

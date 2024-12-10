@@ -9,6 +9,18 @@ export interface Story {
   matchDate: string;
 }
 
+export const stories: Story[] = [
+  {
+    id: '1',
+    name: '张先生 & 李女士',
+    location: '北京',
+    avatar: '/images/stories/couple1.jpg',
+    quote: '通过AI匹配,我们发现彼此的三观和生活习惯都很契合。现在我们已经在一起一年了,感谢这个平台让我们相遇。',
+    matchDate: '2023年3月匹配成功',
+  },
+  // ... 更多故事
+];
+
 interface CasesContent {
   title: string;
   subtitle: string;

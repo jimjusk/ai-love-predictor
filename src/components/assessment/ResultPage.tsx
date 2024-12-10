@@ -3,10 +3,14 @@
 import { useEffect, useState } from 'react';
 import { getResult } from '@/lib/assessment';
 import type { AssessmentResult } from '@/types/assessment';
-import type { ClientPageProps } from '@/types/page';
 import { PageTransition } from '@/components/ui/PageTransition';
 
-export default function ResultPage({ params }: ClientPageProps) {
+interface Props {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
+export default function ResultPage({ params }: Props) {
   const [result, setResult] = useState<AssessmentResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
